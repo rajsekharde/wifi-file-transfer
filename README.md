@@ -43,6 +43,10 @@ Run the script:
 ./run.sh
 ```
 
+A QR code gets generated and stored as a png file under /static/
+
+Scan the QR on the phone and open the link to the app
+
 ### Manually
 
 Run the backend server:
