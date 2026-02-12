@@ -25,6 +25,26 @@ pip3 install -r requirements.txt
 
 ## Running the app
 
+### Using script
+
+Modify the run.sh script
+```bash
+cd ~/projects/wifi-file-transfer
+# Change this to current project path
+```
+
+Make the script executable:
+```bash
+chmod +x run.sh
+```
+
+Run the script:
+```bash
+./run.sh
+```
+
+### Manually
+
 Run the backend server:
 ```bash
 cd wifi-file-transfer
