@@ -6,22 +6,11 @@ The app runs a local web server on the laptop, and any device connected to the s
 
 ## Installation
 
-Clone Git repository:
-```bash
-git clone https://github.com/rajsekharde/wifi-file-transfer.git
-cd wifi-file-transfer
-```
+Clone Git repository
 
-Create and activate a python virtual environment:
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
+Create and activate a python virtual environment
 
-Install dependencies:
-```bash
-pip3 install -r requirements.txt
-```
+Install python dependencies using the **requirements.txt** file
 
 ## Running the app
 
@@ -45,7 +34,7 @@ Run the script:
 
 A QR code gets generated and stored as a png file under /static/
 
-Scan the QR on the phone and open the link to the app
+Scan the QR on your phone and open the link in a browser
 
 ### Manually
 
@@ -55,29 +44,22 @@ cd wifi-file-transfer
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-Get the laptop's IP Address:
-```bash
-hostname -I
-# Displays- 90.92.94.96
-```
+Get the laptop's IP Address
 
-Open the app on a phone connected on the same local network:
-```bash
-Open http://90.92.94.96:8000 on a browser
-```
+Open **http://<laptop IP>:8000** in a browser on your phone. Both the laptop and phone should be connected over a local network 
 
 ## How to use
 
 ### Uploading files from phone to laptop
 
-Select a file from the device and click on 'Upload'
+Select a file from your phone and click on 'Upload'
 
-After successful upload, the file gets stored inside /uploads folder in the project folder on laptop and the 'Files:' list gets updates with the new contents of /uploads folder
+After successful upload, the file gets stored under **uploads** folder under root project folder on the laptop and the **Files** list gets updated with the new contents of **uploads** folder
 
 ### Uploading files from laptop to phone
 
-Copy the file to /uploads folder under root project folder
+Copy the file to **uploads** folder under root project folder
 
-Refresh the page on the phone. The files list should be updated with new contents
+Refresh the page on the phone. The file list gets updated with the new contents 
 
-Click on the name of the file and it gets downloaded to the phone
+Click on the name of the file and it gets downloaded on the phone
