@@ -16,3 +16,21 @@ async function loadFiles() {
 
 // Load files on app start up
 loadFiles()
+
+// Upload files
+async function upload() {
+    const file = document.getElementById('fileInput').files[0];
+
+    if(!file)
+        return alert('Choose file')
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    await fetch ('/upload', {
+        method: 'POST',
+        body: formData
+    });
+
+    loadFiles();
+}
