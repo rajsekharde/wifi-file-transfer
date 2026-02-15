@@ -9,9 +9,9 @@ import (
 const PORT = 8000
 
 func main() {
-	http.HandleFunc("/", func (w http.ResponseWriter, r* http.Request) {
-		fmt.Fprintln(w, "Hello World!")
-	})
+	frontendHandler := http.FileServer(http.Dir("./static"))
+
+	http.Handle("/", frontendHandler)
 
 	fmt.Printf("Server running on port %d\n", PORT)
 	http.ListenAndServe(":"+strconv.Itoa(PORT), nil)
