@@ -7,26 +7,31 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 const uploadDir = "./uploads"
 
 var (
-	red   = color.RGB(255, 0, 0).SprintFunc()
+	red = color.RGB(255, 0, 0).SprintFunc()
 	green = color.RGB(0, 255, 0).SprintFunc()
-	blue  = color.RGB(200, 200, 255).SprintFunc()
+	blue = color.RGB(200, 200, 255).SprintFunc()
+	grey = color.RGB(200, 200, 200).SprintFunc()
 )
 
 func ListFilesHandler(w http.ResponseWriter, r *http.Request) {
 
+	startTime := time.Now()
+
 	// Get all files
 	entries, err := os.ReadDir(uploadDir)
 	if err != nil {
-		log.Printf("%s %s %s ERROR: %v",
+		log.Printf("%s %s %s ERROR: %v   %s",
 			blue(r.Method),
 			r.URL.Path,
 			red(http.StatusInternalServerError),
 			red(err),
+			time.Since(startTime),
 		)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -47,10 +52,11 @@ func ListFilesHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(files)
 
 	// Print log
-	log.Printf("%s %s %s %s",
+	log.Printf("%s %s %s %s   %s",
 		blue(r.Method),
 		r.URL.Path,
 		green(http.StatusOK),
 		green("OK"),
+		time.Since(startTime),
 	)
 }

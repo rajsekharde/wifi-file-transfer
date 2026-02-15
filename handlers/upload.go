@@ -8,9 +8,12 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
+
+	startTime := time.Now()
 
 	if err := os.MkdirAll(uploadDir, os.ModePerm); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -42,10 +45,13 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("uploaded"))
 
 	// Print log
-	log.Printf("%s %s %s %s",
+	log.Printf("%s %s %s %s   %s %s   %s",
 		blue(r.Method),
 		r.URL.Path,
-		green(http.StatusOK),
-		green("OK"),
+		green(http.StatusCreated),
+		green("CREATED"),
+		grey(header.Size),
+		grey("bytes"),
+		time.Since(startTime),
 	)
 }

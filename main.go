@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 const PORT = 8000
@@ -22,20 +23,21 @@ func main() {
 	// Serve frontend on "/"
 	fs := http.FileServer(http.Dir("./static"))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodGet && r.URL.Path == "/" {
-			// Print log
-			log.Printf("%s %s %s %s",
-				blue(r.Method),
-				r.URL.Path,
-				green(http.StatusOK),
-				green("OK"),
-			)
-		}
+		startTime := time.Now()
 		fs.ServeHTTP(w, r)
+		// Print log
+		log.Printf("%s %s %s %s   %s",
+			blue(r.Method),
+			r.URL.Path,
+			green(http.StatusOK),
+			green("OK"),
+			time.Since(startTime),
+		)
 	})
 
 	http.HandleFunc("/files", handlers.ListFilesHandler)
 	http.HandleFunc("/upload", handlers.UploadHandler)
+	http.HandleFunc("/download/", handlers.DownloadHandler)
 
 	fmt.Printf("Server running on port %d\n", PORT)
 	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(PORT), nil))
