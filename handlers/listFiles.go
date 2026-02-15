@@ -23,11 +23,11 @@ func ListFilesHandler(w http.ResponseWriter, r *http.Request) {
 	entries, err := os.ReadDir(uploadDir)
 	if err != nil {
 		log.Printf("%s %s %s ERROR: %v",
-		blue(r.Method),
-		r.URL.Path,
-		red(http.StatusInternalServerError),
-		red(err),
-	)
+			blue(r.Method),
+			r.URL.Path,
+			red(http.StatusInternalServerError),
+			red(err),
+		)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -40,6 +40,12 @@ func ListFilesHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// Set response header
+	w.Header().Set("Content-Type", "application/json")
+
+	// Convert file list to JSON and send response
+	json.NewEncoder(w).Encode(files)
+
 	// Print log
 	log.Printf("%s %s %s %s",
 		blue(r.Method),
@@ -47,10 +53,4 @@ func ListFilesHandler(w http.ResponseWriter, r *http.Request) {
 		green(http.StatusOK),
 		green("OK"),
 	)
-
-	// Set response header
-	w.Header().Set("Content-Type", "application/json")
-
-	// Convert file list to JSON and send response
-	json.NewEncoder(w).Encode(files)
 }

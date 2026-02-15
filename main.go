@@ -35,6 +35,7 @@ func main() {
 	})
 
 	http.HandleFunc("/files", handlers.ListFilesHandler)
+	http.HandleFunc("/upload", handlers.UploadHandler)
 
 	fmt.Printf("Server running on port %d\n", PORT)
 	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(PORT), nil))
