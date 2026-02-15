@@ -1,9 +1,10 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"github.com/fatih/color"
 	"github.com/rajsekharde/wifi-file-transfer/handlers"
+	"github.com/rajsekharde/wifi-file-transfer/utils"
 	"log"
 	"net/http"
 	"strconv"
@@ -15,7 +16,7 @@ const PORT = 8000
 var (
 	// red   = color.RGB(255, 0, 0).SprintFunc()
 	green = color.RGB(0, 255, 0).SprintFunc()
-	blue  = color.RGB(200, 200, 255).SprintFunc()
+	blue  = color.RGB(100, 150, 255).SprintFunc()
 )
 
 func main() {
@@ -39,6 +40,7 @@ func main() {
 	http.HandleFunc("/upload", handlers.UploadHandler)
 	http.HandleFunc("/download/", handlers.DownloadHandler)
 
-	fmt.Printf("Server running on port %d\n", PORT)
+	// fmt.Printf("Server running on port %d\n", PORT)
+	utils.DisplayAsciiLogo(PORT)
 	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(PORT), nil))
 }
