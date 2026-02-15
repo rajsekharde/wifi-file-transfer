@@ -3,20 +3,10 @@ package handlers
 import (
 	// "fmt"
 	"encoding/json"
-	"github.com/fatih/color"
 	"log"
 	"net/http"
 	"os"
 	"time"
-)
-
-const uploadDir = "./uploads"
-
-var (
-	red = color.RGB(255, 0, 0).SprintFunc()
-	green = color.RGB(0, 255, 0).SprintFunc()
-	blue = color.RGB(200, 200, 255).SprintFunc()
-	grey = color.RGB(200, 200, 200).SprintFunc()
 )
 
 func ListFilesHandler(w http.ResponseWriter, r *http.Request) {
