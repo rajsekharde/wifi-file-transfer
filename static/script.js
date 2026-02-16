@@ -26,6 +26,7 @@ async function loadFiles() {
         downloadButton.textContent = "Download";
         downloadButton.onclick = (() => {
             window.location.href = `/download/${f.name}`;
+            document.getElementById("fileInput").value = "";
         });
         // fileDiv.innerHTML = `${f} <a href="/download/${f}">Download</a>`;
         
@@ -53,5 +54,6 @@ async function upload() {
         body: formData
     });
 
+    document.getElementById("fileInput").value = "";
     loadFiles();
 }
