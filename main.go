@@ -60,6 +60,6 @@ func main() {
 	http.HandleFunc("/download/", handlers.DownloadHandler)
 
 	// fmt.Printf("Server running on port %d\n", PORT)
-	utils.DisplayAsciiLogo(PORT)
+	utils.DisplayStartupVisuals(PORT)
 	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(PORT), nil))
 }
