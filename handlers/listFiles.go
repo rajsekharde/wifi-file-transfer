@@ -9,6 +9,11 @@ import (
 	"time"
 )
 
+type FileInfo struct {
+	Name string `json:"name"`
+	Size int64  `json:"size"`
+}
+
 func ListFilesHandler(w http.ResponseWriter, r *http.Request) {
 
 	startTime := time.Now()
@@ -28,10 +33,17 @@ func ListFilesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Filter directories
-	var files []string
-	for _, e := range entries {
-		if !e.IsDir() {
-			files = append(files, e.Name())
+	var files []FileInfo
+	for _, entry := range entries {
+		if !entry.IsDir() {
+			info, err := entry.Info()
+			if err != nil {
+				continue
+			}
+			files = append(files, FileInfo{
+				Name: entry.Name(),
+				Size: info.Size(),
+			})
 		}
 	}
 

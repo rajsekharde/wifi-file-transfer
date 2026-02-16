@@ -5,6 +5,7 @@ async function loadFiles() {
     const files = await res.json();
 
     const fileList = document.getElementById("fileList");
+    fileList.innerHTML = '';
 
     files.forEach( f => {
         const fileDiv = document.createElement('div');
@@ -16,14 +17,15 @@ async function loadFiles() {
         fileDiv.id = "fileDiv";
         fileDetailsDiv.id = "fileDetailsDiv";
         fileName.id = "fileName";
+        fileSize.id = "fileSize";
         downloadButton.id = "downloadButton";
 
-        fileName.textContent = f;
-        fileSize.textContent = "10000B"
+        fileName.textContent = f.name;
+        fileSize.textContent = `${f.size} B`
 
         downloadButton.textContent = "Download";
         downloadButton.onclick = (() => {
-            window.location.href = `/download/${f}`;
+            window.location.href = `/download/${f.name}`;
         });
         // fileDiv.innerHTML = `${f} <a href="/download/${f}">Download</a>`;
         
