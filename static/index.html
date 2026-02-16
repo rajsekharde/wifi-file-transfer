@@ -9,19 +9,21 @@
 </head>
 
 <body>
-    <h2 id="appTitle">Wifi File Transfer</h2>
+    <div id="appDiv">
+        <h2 id="appTitle">Wifi File Transfer</h2>
 
-    <div id="uploadDiv">
-        <input type="file" id="fileInput" />
-        <button onclick="upload()">Upload</button>
-    </div>
+        <div id="uploadDiv">
+            <input type="file" id="fileInput" />
+            <button onclick="upload()" id="uploadButton">Upload</button>
+        </div>
 
-    <div id="filesListDiv">
-        <h2>Files</h2>
-        <ul id="fileList"></ul>
+        <div id="filesListDiv">
+            <h2>Files</h2>
+            <div id="fileList"></div>
+        </div>
+
+        <script src="script.js"></script>
     </div>
-    
-    <script src="script.js"></script>
 </body>
 
 </html>
