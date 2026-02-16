@@ -22,18 +22,22 @@ var (
 )
 
 func main() {
+
+	// Get the full path of running binary
 	exePath, err := os.Executable()
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// Resolve symlink
 	realPath, err := filepath.EvalSymlinks(exePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// Get the root project directory containing original binary
 	baseDir := filepath.Dir(realPath)
-	staticDir := filepath.Join(baseDir, "static")
+	staticDir := filepath.Join(baseDir, "static") // Get the full path of ./static
 
 	// Serve frontend on "/"
 	// fs := http.FileServer(http.Dir("./static"))
