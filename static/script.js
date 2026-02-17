@@ -58,15 +58,19 @@ async function upload() {
     uploadButton.textContent = "Uploading";
     uploadButton.disabled = true;
 
-    const file = document.getElementById('fileInput').files[0];
+    const files = document.getElementById('fileInput').files;
 
-    if (!file) {
+    if (!files.length) {
         uploadButton.textContent = "Upload";
         uploadButton.disabled = false;
         return alert('Choose file');
     }
+
     const formData = new FormData();
-    formData.append('file', file);
+    
+    for(let i=0; i<files.length; i++){
+        formData.append('files', files[i]);
+    }
 
     await fetch('/upload', {
         method: 'POST',

@@ -20,38 +20,58 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Extract file from request
-	file, header, err := r.FormFile("file")
-	if err != nil {
-		http.Error(w, err.Error(), 400)
+	// 10GB file limit
+	r.Body = http.MaxBytesReader(w, r.Body, 10<<30)
+
+	// Use 32MB RAM for multipart parsing
+	if err := r.ParseMultipartForm(32 << 20); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	defer file.Close()
 
-	// Create destination file
-	dst, err := os.Create(filepath.Join(uploadDir, header.Filename))
-	if err != nil {
-		http.Error(w, err.Error(), 500)
+	files := r.MultipartForm.File["files"]
+
+	if len(files) == 0 {
+		http.Error(w, "No files uploaded", http.StatusBadRequest)
 		return
 	}
-	defer dst.Close()
 
-	if _, err := io.Copy(dst, file); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	for _, header := range files {
+		file, err := header.Open()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		dst, err := os.Create(filepath.Join(uploadDir, header.Filename))
+		if err != nil {
+			file.Close()
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		if _, err := io.Copy(dst, file); err != nil {
+			file.Close()
+			dst.Close()
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		log.Printf("%s uploaded (%d bytes)\n", header.Filename, header.Size)
+
+		file.Close()
+		dst.Close()
 	}
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("uploaded"))
 
 	// Print log
-	log.Printf("%s %s %s %s   %s %s   %s",
+	log.Printf("%s %s %s %s  %s",
 		blue(r.Method),
 		r.URL.Path,
 		green(http.StatusCreated),
 		green("CREATED"),
-		grey(header.Size),
-		grey("bytes"),
 		time.Since(startTime),
 	)
 }
