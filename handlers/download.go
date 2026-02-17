@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"net/http"
-	"path/filepath"
 	"log"
+	"net/http"
 	"os"
+	"path/filepath"
+	"strconv"
 	"time"
 )
 
@@ -31,15 +32,24 @@ func DownloadHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Disposition", "attachment; filename="+fileName)
 	http.ServeFile(w, r, filePath)
 
-	info, _ := os.Stat(filePath)
-	// Print log
-	log.Printf("%s %s %s %s   %s %s   %s",
-		blue(r.Method),
-		r.URL.Path,
-		green(http.StatusOK),
-		green("OK"),
-		grey(info.Size()),
-		grey("bytes"),
-		time.Since(startTime),
-	)
+	// Print logs
+	if r.Header.Get("Range") == "" {
+		info, _ := os.Stat(filePath)
+
+		log.Printf("%s downloaded %s%s %s%s\n",
+			grey(fileName),
+			grey("("),
+			grey(strconv.FormatInt(info.Size(), 10)),
+			grey("bytes"),
+			grey(")"),
+		)
+
+		log.Printf("%s %s %s %s   %s",
+			blue(r.Method),
+			r.URL.Path,
+			green(http.StatusOK),
+			green("OK"),
+			time.Since(startTime),
+		)
+	}
 }

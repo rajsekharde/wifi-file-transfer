@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"time"
 )
 
@@ -57,7 +58,14 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		log.Printf("%s uploaded (%d bytes)\n", header.Filename, header.Size)
+		// log.Printf("%s uploaded (%d bytes)\n", header.Filename, header.Size)
+		log.Printf("%s uploaded %s%s %s%s\n",
+			grey(header.Filename),
+			grey("("),
+			grey(strconv.Itoa(int(header.Size))),
+			grey("bytes"),
+			grey(")"),
+		)
 
 		file.Close()
 		dst.Close()
