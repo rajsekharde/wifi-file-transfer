@@ -4,6 +4,7 @@ import (
 	"github.com/fatih/color"
 	"os"
 	"path/filepath"
+	"fmt"
 )
 
 var uploadDir = getUploadDir()
@@ -28,4 +29,30 @@ func getUploadDir() string {
 
 	baseDir := filepath.Dir(realExe)
 	return filepath.Join(baseDir, "uploads")
+}
+
+func convertBytes(bytes int) string {
+	var bytesF float32 = float32(bytes)
+	p := 0
+	
+	for bytesF >= 1024 && p < 4 {
+		bytesF /= 1024
+		p++
+	}
+
+	var unit string
+	switch p {
+	case 0:
+		unit = "B"
+	case 1:
+		unit = "KB"
+	case 2:
+		unit = "MB"
+	case 3:
+		unit = "GB"
+	default:
+		unit = "TB"
+	}
+
+	return fmt.Sprintf("%.2f %s", bytesF, unit)
 }

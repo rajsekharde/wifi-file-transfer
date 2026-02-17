@@ -11,7 +11,7 @@ import (
 
 type FileInfo struct {
 	Name string `json:"name"`
-	Size int64  `json:"size"`
+	Size string  `json:"size"`
 }
 
 func ListFilesHandler(w http.ResponseWriter, r *http.Request) {
@@ -42,7 +42,7 @@ func ListFilesHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			files = append(files, FileInfo{
 				Name: entry.Name(),
-				Size: info.Size(),
+				Size: convertBytes(int(info.Size())),
 			})
 		}
 	}

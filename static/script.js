@@ -21,7 +21,7 @@ async function loadFiles() {
         downloadButton.classList.add("downloadButton");
 
         fileName.textContent = f.name;
-        fileSize.textContent = `${f.size} B`
+        fileSize.textContent = f.size;
 
         downloadButton.textContent = "Download";
 

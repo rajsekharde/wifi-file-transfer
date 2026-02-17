@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strconv"
+	// "strconv"
 	"time"
 )
 
@@ -36,11 +36,10 @@ func DownloadHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Header.Get("Range") == "" {
 		info, _ := os.Stat(filePath)
 
-		log.Printf("%s downloaded %s%s %s%s\n",
+		log.Printf("%s downloaded %s%s%s\n",
 			grey(fileName),
 			grey("("),
-			grey(strconv.FormatInt(info.Size(), 10)),
-			grey("bytes"),
+			grey(convertBytes(int(info.Size()))),
 			grey(")"),
 		)
 
